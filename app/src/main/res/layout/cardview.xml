@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             >
             <ImageView
-                android:id="@+id/imgToday"
+                android:id="@+id/imgoftheDay"
                 android:layout_gravity="center"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -46,6 +46,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"/>
                 <TextView
+                    android:id="@+id/DescriptionoftheDay"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -68,7 +69,7 @@
 
                 />
             <TextView
-                android:id="@+id/lowHighDegree"
+                android:id="@+id/lowDegree"
                 android:text="6°"
                 android:layout_weight="1"
                 android:layout_gravity="center"
