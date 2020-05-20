@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
@@ -12,11 +15,22 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    LocationManagerClass locationManagerClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        locationManagerClass = new LocationManagerClass(this);
+        boolean permissionStatus = false;
+        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=  PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE}, PackageManager.PERMISSION_GRANTED);
+            permissionStatus = true;
+        }
+        startService(new Intent(getApplicationContext(),LocationTrackerService.class));
+        locationManagerClass.start();
+
 
         ArrayList<WeatherInfo> wi = new ArrayList<>();
 
@@ -46,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager lm = new LinearLayoutManager(this);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(lm);
+
 
 
     }
