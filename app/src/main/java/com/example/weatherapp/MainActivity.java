@@ -2,14 +2,30 @@ package com.example.weatherapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.app.ActivityCompat;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
 import android.os.Bundle;
 import android.util.Log;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity {
     Intent intent;
@@ -33,11 +49,49 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    RestInterface restInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         intent = new Intent(getApplicationContext(),LocationTrackerService.class);
+
+
+        restInterface= ApiClient.getClient().create(RestInterface.class);
+        Call<Repo> call = restInterface.getRepo();
+        call.enqueue(new Callback<Repo>() {
+            @Override
+            public void onResponse(Call<Repo> call, Response<Repo> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Repo> call, Throwable t) {
+
+            }
+
+            @Override
+            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
+           /*     List<Repo> myList = new ArrayList<>();
+                myList=response.body();*/
+
+          //      System.out.println(""+ City.class.getName() + "\n");
+
+         /*       for (int i=0; i<myList.size(); i++){
+                    System.out.println(""+ myList.get(i).city.name+ "\n");
+                    Log.v(""+ myList.get(i).list.weather.main + "\n", "mesaj");
+
+
+                }*/
+            }
+
+            @Override
+            public void onFailure(Call<List<Repo>> call, Throwable t) {
+
+            }
+        })
+
         if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=  PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE}, 3);
         }else{
@@ -46,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //locationManagerClass.start();
 
         /*
         ArrayList<WeatherInfo> wi = new ArrayList<>();
