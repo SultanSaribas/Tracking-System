@@ -3,24 +3,64 @@ package com.example.weatherapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
 import android.os.Bundle;
-import android.widget.Adapter;
-import android.widget.LinearLayout;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     LocationManagerClass locationManagerClass;
 
+    RestInterface restInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        restInterface= ApiClient.getClient().create(RestInterface.class);
+        Call<Repo> call = restInterface.getRepo();
+        call.enqueue(new Callback<Repo>() {
+            @Override
+            public void onResponse(Call<Repo> call, Response<Repo> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Repo> call, Throwable t) {
+
+            }
+
+            @Override
+            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
+           /*     List<Repo> myList = new ArrayList<>();
+                myList=response.body();*/
+
+          //      System.out.println(""+ City.class.getName() + "\n");
+
+         /*       for (int i=0; i<myList.size(); i++){
+                    System.out.println(""+ myList.get(i).city.name+ "\n");
+                    Log.v(""+ myList.get(i).list.weather.main + "\n", "mesaj");
+
+
+                }*/
+            }
+
+            @Override
+            public void onFailure(Call<List<Repo>> call, Throwable t) {
+
+            }
+        })
 
         locationManagerClass = new LocationManagerClass(this);
         boolean permissionStatus = false;
@@ -30,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         }
         startService(new Intent(getApplicationContext(),LocationTrackerService.class));
         locationManagerClass.start();
+
 
 
         ArrayList<WeatherInfo> wi = new ArrayList<>();
