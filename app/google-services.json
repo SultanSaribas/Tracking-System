@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1083137098361",
+    "firebase_url": "https://location-tracker-f9587.firebaseio.com",
+    "project_id": "location-tracker-f9587",
+    "storage_bucket": "location-tracker-f9587.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083137098361:android:68766fa2ff1cf14a4a0aa8",
+        "android_client_info": {
+          "package_name": "com.example.weatherapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083137098361-3nid55gn30l99571elhmqrqfiruk6nd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9fIXeotZe1NIEKgvYh425KOSEoz9PdSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1083137098361-3nid55gn30l99571elhmqrqfiruk6nd5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
