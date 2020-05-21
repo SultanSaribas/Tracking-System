@@ -3,17 +3,19 @@ package com.example.weatherapp;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.Toast;
+import android.util.Log;
 
 public class LocationTrackerService extends Service {
+    LocationManagerClass locationManagerClass;
     public LocationTrackerService() {
+
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
         onTaskRemoved(intent);
+        locationManagerClass = new LocationManagerClass(getApplicationContext());
+        locationManagerClass.start();
 
-        Toast.makeText(getApplicationContext(),"This is a Service running in Background",
-                Toast.LENGTH_SHORT).show();
         return START_STICKY;
     }
     @Override
@@ -29,5 +31,11 @@ public class LocationTrackerService extends Service {
         super.onTaskRemoved(rootIntent);
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v("serviceTest", "Service is dead");
+        Intent broadcastIntent = new Intent(this, ServiceRestarter.class);
+        sendBroadcast(broadcastIntent);
+    }
 }

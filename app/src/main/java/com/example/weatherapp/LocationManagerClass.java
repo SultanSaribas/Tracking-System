@@ -62,8 +62,8 @@ public class LocationManagerClass {
 
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, locationListener);
             Log.v("locationUpdate", "triggered");
         }else{
             Log.v("locationUpdate", "null porblem");

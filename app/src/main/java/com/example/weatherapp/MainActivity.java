@@ -1,37 +1,54 @@
 package com.example.weatherapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
+import androidx.core.app.ActivityCompat;
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Adapter;
-import android.widget.LinearLayout;
-
-import java.util.ArrayList;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
-    LocationManagerClass locationManagerClass;
+    Intent intent;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 3:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Validate the permissions result
+                    if(!isMyServiceRunning(intent.getClass())){
+                        Log.v("serviceTest", "Service triggered");
+                        startService(intent);
+                    }
+                }else{
+                    finish();
+                }
+                break;
+        }
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        locationManagerClass = new LocationManagerClass(this);
-        boolean permissionStatus = false;
+        intent = new Intent(getApplicationContext(),LocationTrackerService.class);
         if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=  PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE}, PackageManager.PERMISSION_GRANTED);
-            permissionStatus = true;
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE}, 3);
+        }else{
+            startService(intent);
         }
-        startService(new Intent(getApplicationContext(),LocationTrackerService.class));
-        locationManagerClass.start();
 
 
+
+        //locationManagerClass.start();
+
+        /*
         ArrayList<WeatherInfo> wi = new ArrayList<>();
 
         WeatherInfo w1=new WeatherInfo();
@@ -60,8 +77,25 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager lm = new LinearLayoutManager(this);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(lm);
+        */
 
 
+    }
 
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.v("serviceTest", "main on destroy called");
+        stopService(intent);
     }
 }
