@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView todayDescription = findViewById(R.id.todayDescription);
         final TextView todayhigh = findViewById(R.id.todayHighDegree);
         final TextView todayLow = findViewById(R.id.todayLowDegree);
+        final TextView date=findViewById(R.id.date);
 
         restInterface= ApiClient.getClient().create(RestInterface.class);
         Call<Repo> call = restInterface.getRepo();
@@ -80,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 MyAdapter adapter = new MyAdapter(getApplication(), repo);
                 recyclerView.setAdapter(adapter);
                 Picasso.get().load( "https://openweathermap.org/img/wn/" + repo.list.get(0).weather.get(0).icon + "@2x.png").into(imgToday);
+                todayDescription.setText(repo.list.get(0).weather.get(0).main);
+                String dates = MyAdapter.getReadableDateString(repo.list.get(0).dt, "dd/MM/yyyy");
+                date.setText(dates);
+                todayhigh.setText(String.valueOf(repo.list.get(0).temp.max + "\u2103" ));
+                todayLow.setText(String.valueOf(repo.list.get(0).temp.min + "\u2103"));
 
                 //recyclerView.notify();
                 Log.v("aa", "aaa");

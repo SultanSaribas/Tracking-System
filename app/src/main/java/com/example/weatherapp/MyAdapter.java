@@ -13,14 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weatherapp.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Context context;
     private Repo myDataset;
 
+
+
+    public static String getReadableDateString(long time, String dateformat){
+      DateFormat shortenedDateFormat = new SimpleDateFormat(dateformat);
+      Date result = new Date(time  * 1000L);
+        return shortenedDateFormat.format(result) ;
+    }
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public ImageView imgoftheDay;
@@ -53,14 +64,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return new MyAdapter.MyViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
-        Picasso.get().load( "https://openweathermap.org/img/wn/" + myDataset.list.get(position).weather.get(0).icon + "@2x.png").into(holder.imgoftheDay);
-        holder.nameoftheday.setText("2" + position +"/05/2021");
+        Picasso.get().load( "https://openweathermap.org/img/wn/" + myDataset.list.get(position).weather.get(0).icon + "@4x.png").into(holder.imgoftheDay);
+        String date = getReadableDateString(myDataset.list.get(position).dt, "EEE MMM dd");
+        holder.nameoftheday.setText(date);
         holder.DescriptionoftheDay.setText(myDataset.list.get(position).weather.get(0).main);
-        holder.HighDegree.setText(String.valueOf(myDataset.list.get(position).temp.max) + "\u2109");
-        holder.lowDegree.setText(String.valueOf(myDataset.list.get(position).temp.min)+ "\u2109.");
+        holder.HighDegree.setText(String.valueOf(myDataset.list.get(position).temp.max) + "\u2103");
+        holder.lowDegree.setText(String.valueOf(myDataset.list.get(position).temp.min)+ "\u2103.");
 
     }
 
