@@ -3,6 +3,8 @@ package com.example.weatherapp;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Repo {
     @SerializedName("city")
     @Expose
@@ -20,11 +22,11 @@ public class Repo {
         return list;
     }
 
-    public void setList(List list) {
+    public void setList(ListObject listObject) {
         this.list = list;
     }
 
     @SerializedName("list")
     @Expose
-    public List list;
+    public List<ListObject> list;
 }

@@ -11,13 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Context context;
-    private ArrayList<WeatherInfo> myDataset;
+    private Repo myDataset;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -39,36 +41,32 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(Context context, ArrayList<WeatherInfo> myDataset) {
+    public MyAdapter(Context context, Repo repo) {
         this.context = context;
-        this.myDataset = myDataset;
+        this.myDataset = repo;
     }
 
 
-    // Create new views (invoked by the layout manager)
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
         View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview, parent, false);
         return new MyAdapter.MyViewHolder(view);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        holder.imgoftheDay.setImageResource(myDataset.get(position).getImage());
-        holder.nameoftheday.setText(myDataset.get(position).getName());
-        holder.DescriptionoftheDay.setText(myDataset.get(position).getDescription());
-        holder.HighDegree.setText(myDataset.get(position).getHighDegree());
-        holder.lowDegree.setText(myDataset.get(position).getLowDegree());
+        Picasso.get().load( "https://openweathermap.org/img/wn/" + myDataset.list.get(position).weather.get(0).icon + "@2x.png").into(holder.imgoftheDay);
+        holder.nameoftheday.setText("2" + position +"/05/2021");
+        holder.DescriptionoftheDay.setText(myDataset.list.get(position).weather.get(0).main);
+        holder.HighDegree.setText(String.valueOf(myDataset.list.get(position).temp.max) + "\u2109");
+        holder.lowDegree.setText(String.valueOf(myDataset.list.get(position).temp.min)+ "\u2109.");
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return myDataset.size();
+        return myDataset.list.size();
     }
 }

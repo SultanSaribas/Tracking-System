@@ -4,26 +4,26 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Temp_ {
-    public Float getMin() {
+    public double getMin() {
         return min;
     }
 
-    public void setMin(Float min) {
+    public void setMin(double min) {
         this.min = min;
     }
 
-    public Float getMax() {
+    public double getMax() {
         return max;
     }
 
-    public void setMax(Float max) {
+    public void setMax(double max) {
         this.max = max;
     }
 
     @SerializedName("min") //Min daily temperature.
     @Expose
-    public Float min;
+    public double min;
     @SerializedName("max") //Max daily temperature.
     @Expose
-    public Float max;
+    public double max;
 }

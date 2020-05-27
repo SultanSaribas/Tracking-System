@@ -26,14 +26,14 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             >
+
             <ImageView
                 android:id="@+id/imgToday"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher_background"
-                />
+                android:src="@drawable/ic_launcher_background" />
 
             <TextView
                 android:id="@+id/todayHighDegree"
